@@ -30,10 +30,6 @@ buy on AliExpress. It looks like this:
 
 ![ST-link V2](img/st-link.jpg)
 
-Here is connection diagram:
-
-![Connection diagram](img/conn-diag.jpg)
-
 ## Optional Hardware
 
 #### 1. USB to serial port module
@@ -100,6 +96,9 @@ Run linker:
 Connect ST-link debugger/programmer to PC.
 
 Connect development board to ST-link debugger/programmer.
+Here is connection diagram:
+
+![Connection diagram](img/conn-diag.jpg)
 
 Start GDB server by running `st-util` tool:
 
