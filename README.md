@@ -30,6 +30,10 @@ buy on AliExpress. It looks like this:
 
 ![ST-link V2](img/st-link.jpg)
 
+Here is connection diagram:
+
+![Connection diagram](img/conn-diag.jpg)
+
 ## Optional Hardware
 
 #### 1. USB to serial port module
