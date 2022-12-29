@@ -100,6 +100,9 @@ Here is connection diagram:
 
 ![Connection diagram](img/conn-diag.jpg)
 
+Do not connect development board to USB.
+ST-link debugger/programmer already provides power supply to development board.
+
 Start GDB server by running `st-util` tool:
 
     $ st-util
