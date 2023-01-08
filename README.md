@@ -69,21 +69,18 @@ Create file `example.S` with the following content:
     .cpu cortex-m4
     .thumb
 
-                        @ Interrupt vector table beginning
     .word 0x0           @ Reserved
     .word 0x08000400    @ Reset handler
     .space 0x3f8        @ Fill with zeros.
 
-                        @ Next instruction is at address 0x08000400
-    nop                 @ Do Nothing 1
-    nop                 @ Do Nothing 2
-    nop                 @ Do Nothing 3
-    nop                 @ Do Nothing 4
+    start:
+    nop                 @ Do Nothing
     ldr r0, =0x1111     @ Write 0x1111 to register r0
     ldr r1, =0x2222     @ Write 0x2222 to register r1
     mov r2, r0          @ Copy content of register r0 to register r2
     mov r3, r1          @ Copy content of register r1 to register r3
     b .                 @ Endless loop
+
 
 Run assembler:
 
@@ -123,13 +120,14 @@ Load program into flash memory:
 
 Set breakpoint to program start:
 
-    (gdb) break *0x08000400
+    (gdb) break start
 
 Run program:
 
     (gdb) continue
 
-Debugger should stop at line 9 (first `nop`).
+Debugger should stop at first line after label `start`
+(the line containing command `nop`).
 
 Examine content of CPU registers:
 
