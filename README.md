@@ -8,6 +8,10 @@ how to write linker scripts, how to write GNU makefiles and how to switch
 from assembly to C programming language without using any IDE or third-party
 library or third-party HAL or CMSIS - everything is done from scratch.
 
+>
+> WARNING: Work in progress. New examples will be added later.
+>
+
 ## Required Hardware
 
 #### 1. Development board
@@ -36,7 +40,7 @@ buy on AliExpress. It looks like this:
 
 This is useful for communicating with microcontroller over UART.
 
-There is a lot of different USB to serial port modules on the market.
+There is a lot of different USB to serial port modules.
 I recommend one also made by WeAct Studio.
 Check their official store on AliExpress.
 Here is a link to a project page on GitHub:
@@ -46,8 +50,7 @@ https://github.com/WeActStudio/WeActStudio.USB2SerialV1
 
 This is useful for debugging while writing drivers for UART, SPI, I2C and similar.
 
-There is a lot of different logic analyzers on the market and some of them
-are very expensive.
+There is a lot of different logic analyzers and some of them are very expensive.
 For this purposes you can use the cheapest one.
 WeAct Studio has also made logic analyzer and it is preatty cheap.
 Check their official store on AliExpress.
