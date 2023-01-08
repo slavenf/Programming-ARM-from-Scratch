@@ -1,5 +1,6 @@
-AS = arm-none-eabi-as
-LD = arm-none-eabi-ld
+AS  = arm-none-eabi-as
+LD  = arm-none-eabi-ld
+GDB = arm-none-eabi-gdb
 
 .PHONY: all
 all: example.elf
@@ -17,4 +18,4 @@ clean:
 
 debug: example.elf
 	st-util &
-	arm-none-eabi-gdb example.elf -ex "target remote :4242" -ex "load"
+	$(GDB) example.elf -ex "target remote :4242" -ex "load"
