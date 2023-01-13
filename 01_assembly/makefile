@@ -16,6 +16,10 @@ clean:
 	rm -rf *.o
 	rm -rf *.elf
 
-debug: example.elf
-	st-util &
+.PHONY: gdb-server
+gdb-server:
+	st-util -m
+
+.PHONY: gdb
+gdb: example.elf
 	$(GDB) example.elf -ex "target remote :4242" -ex "load"
