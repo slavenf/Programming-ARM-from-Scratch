@@ -72,9 +72,9 @@ Create file `example.S` with the following content:
     .cpu cortex-m4
     .thumb
 
-    .word 0x0           @ Reserved
-    .word 0x08000400    @ Reset handler
-    .space 0x3f8        @ Fill with zeros.
+    .word 0x20020000    @ Top of stack (end od RAM)
+    .word start         @ Reset handler
+    .space 0x3f8        @ Fill with zeros
 
     start:
     nop                 @ Do Nothing
@@ -83,7 +83,6 @@ Create file `example.S` with the following content:
     mov r2, r0          @ Copy content of register r0 to register r2
     mov r3, r1          @ Copy content of register r1 to register r3
     b .                 @ Endless loop
-
 
 Run assembler:
 
