@@ -1,24 +1,31 @@
-.syntax unified     @ Unified instruction set syntax.
-                    @ See GNU as manual, section 9.4.2.1, page 123.
+@ Unified instruction set syntax.
+@ See GNU as manual, section 9.4.2.1, page 123 and page 129.
+.syntax unified
 
-.cpu cortex-m4      @ Target processor is Cortex-M4.
+@ Target processor is Cortex-M4.
+@ See GNU as manual, section 9.4.2.1, page 125.
+.cpu cortex-m4
 
-.thumb              @ Thumb instruction set.
-                    @ See PM0214, section 1.3, page 14/262.
-                    @ See GNU as manual, section 9.4.4, page 129.
+@ Thumb instruction set.
+@ See PM0214, section 1.3, page 14/262.
+@ See GNU as manual, section 9.4.4, page 129.
+.thumb
 
-@ Vector table begin.
+@ -----------------------------------------------------------------------------
+@ Vector table.
 @ See PM0214, section 2.3.4, page 40/262.
 
-.word 0x20020000    @ Initial SP value (top-of-stack) is set to end od RAM.
+@ Initial SP value (top-of-stack) is set to end od RAM.
+.word 0x20020000
 
-.word start + 1     @ Reset handler. +1 to indicate Thumb mode.
-                    @ See PM0214, section 2.3.4, page 40/262.
+@ Reset handler. +1 to indicate that the exception handler is Thumb code.
+@ See PM0214, section 2.3.4, page 40/262.
+.word start + 1
 
-.space 0x3f8        @ Fill the rest with zeros.
+@ Fill the rest with zeros.
+.space 0x3f8
 
-@ Vector table end.
-
+@ -----------------------------------------------------------------------------
 start:
     nop                 @ Do Nothing.
     ldr r0, =0x1111     @ Write 0x1111 to register r0.
