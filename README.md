@@ -147,3 +147,21 @@ Stop debugging and exit GDB:
 
     (gdb) kill
     (gdb) quit
+
+## Using examples
+
+All examples have prepared makefiles.
+
+**Building:**
+1. Run `make`.
+
+**Writing program to main flash memory:**
+1. Connect ST-link to PC.
+2. Connect ST-link to development board.
+3. Run `make flash`.
+
+**Debugging:**
+1. Connect ST-link to PC.
+2. Connect ST-link to development board.
+3. Run `make gdb-server`.
+4. Open new terminal and run `make gdb`.
