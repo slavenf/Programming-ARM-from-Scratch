@@ -33,10 +33,6 @@ clean:
 flash: program.bin
 	$(ST-FLASH) write program.bin 0x08000000
 
-.PHONY: erase
-erase:
-	$(ST-FLASH) erase
-
 .PHONY: gdb-server
 gdb-server:
 	$(ST-UTIL) -m
