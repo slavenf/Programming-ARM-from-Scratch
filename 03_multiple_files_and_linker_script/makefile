@@ -8,20 +8,17 @@ ST-UTIL  = st-util
 .PHONY: all
 all: program.elf program.bin
 
-vector_table.o: vector_table.S
-	$(AS) vector_table.S -o vector_table.o -g
+STM32F411xE_startup.o: STM32F411xE_startup.S
+	$(AS) STM32F411xE_startup.S -o STM32F411xE_startup.o -g
 
-reset_handler.o: reset_handler.S
-	$(AS) reset_handler.S -o reset_handler.o -g
-
-main.o: main.S
-	$(AS) main.S -o main.o -g
-
-program.elf: vector_table.o reset_handler.o main.o STM32F411xE.ld
-	$(LD) vector_table.o reset_handler.o main.o -o program.elf -T STM32F411xE.ld
+program.elf: STM32F411xE_startup.o main.o STM32F411xE.ld
+	$(LD) STM32F411xE_startup.o main.o -o program.elf -T STM32F411xE.ld
 
 program.bin: program.elf
 	$(OBJ-COPY) -O binary program.elf program.bin
+
+main.o: main.S
+	$(AS) main.S -o main.o -g
 
 .PHONY: clean
 clean:

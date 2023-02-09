@@ -22,7 +22,7 @@ LED_BLINK_DELAY = 1000000
 
 @ -----------------------------------------------------------------------------
 
-.type main, %function
+.type main, "function"
 .global main
 main:
     @ Enable GPIOC
