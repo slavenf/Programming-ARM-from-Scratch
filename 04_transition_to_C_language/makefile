@@ -1,5 +1,5 @@
 AS       = arm-none-eabi-as
-CC		 = arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -std=c11 -g
+CC		 = arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -std=c11 -g -Os
 LD       = arm-none-eabi-ld
 OBJ-COPY = arm-none-eabi-objcopy
 GDB      = arm-none-eabi-gdb

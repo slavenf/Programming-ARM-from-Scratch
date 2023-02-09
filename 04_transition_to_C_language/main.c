@@ -23,7 +23,7 @@
 // Register access macro
 #define REG(address) (*(volatile unsigned int*)address)
 
-void delay(unsigned int i)
+void delay(volatile unsigned int i)
 {
     while (i > 0)
     {
