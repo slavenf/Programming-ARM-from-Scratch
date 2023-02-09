@@ -8,14 +8,14 @@
 
 vector_table:
     .word   __stack_end
-    .word   isr_reset
+    .word   Reset_Handler
     .space  0x3f8
 
 @ -----------------------------------------------------------------------------
 
 .text
 
-.type isr_reset, "function"
-isr_reset:
+.type Reset_Handler, "function"
+Reset_Handler:
     bl main
     b .
