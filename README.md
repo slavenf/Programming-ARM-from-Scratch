@@ -3,14 +3,10 @@
 This is a collection of examples written by myself that show how to
 program ARM microcontrollers from scratch.
 
-The idea is to show how to do bare-metal programming in assembly language,
+The examples show how to do bare-metal programming in assembly language,
 how to write linker scripts, how to write GNU makefiles and how to switch
 from assembly to C programming language without using any IDE or third-party
 library or third-party HAL or CMSIS - everything is done from scratch.
-
->
-> WARNING: Work in progress. New examples will be added later.
->
 
 ## Required Hardware
 
