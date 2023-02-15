@@ -55,10 +55,26 @@ https://github.com/WeActStudio/LogicAnalyzerV1
 
 ## Required Software
 
-1.  `arm-none-eabi-gcc`
-2.  `arm-none-eabi-binutils`
-3.  `arm-none-eabi-gdb`
-4.  [`stlink`](https://github.com/stlink-org/stlink)
+#### 1. ARM GNU toolchain
+
+ARM GNU toolchain includes GNU assembler, C and C++ compilers, GNU debugger and
+GNU binutils.
+Most of Linux distributions contain ARM GNU toolchain in their repository.
+Such packages contain the following executables:
+* `arm-none-eabi-as` --- Assembler
+* `arm-none-eabi-gcc` --- C compiler
+* `arm-none-eabi-ld` --- Linker
+* `arm-none-eabi-gdb` --- Debugger
+* `arm-none-eabi-objcopy` --- objcopy, part of GNU binutils
+
+There is also official ARM GNU toolchain:
+https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain
+
+#### 2. STM32 programming toolset
+
+These examples use `stlink` toolset to program and debug STM32 devices.
+Here is a link to a project page on GitHub: https://github.com/stlink-org/stlink
+Most of Linux distributions contain `stlink` toolset in their repository.
 
 ## Quick start
 
