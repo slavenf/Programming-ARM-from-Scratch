@@ -1,7 +1,7 @@
 # Programming ARM from Scratch
 
-This is a collection of examples written by myself that show how to
-program ARM microcontrollers from scratch.
+This is a collection of examples that show how to program ARM microcontrollers
+from scratch.
 
 The examples show how to do bare-metal programming in assembly language,
 how to write linker scripts, how to write GNU makefiles and how to switch
