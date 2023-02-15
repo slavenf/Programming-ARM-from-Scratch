@@ -1,3 +1,6 @@
+#ifndef FILE_GUARD_CORTEX_M4_H
+#define FILE_GUARD_CORTEX_M4_H
+
 #include <stdint.h>
 
 // SysTick peripheral registers structure
@@ -26,3 +29,5 @@ struct STK_t
 
 // Bit definitions for STK_VAL register
 #define STK_LOAD_VAL_MASK       0x00FFFFFF
+
+#endif // FILE_GUARD_CORTEX_M4_H

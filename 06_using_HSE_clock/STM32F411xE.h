@@ -1,3 +1,6 @@
+#ifndef FILE_GUARD_STM32F411XE_H
+#define FILE_GUARD_STM32F411XE_H
+
 #include <stdint.h>
 
 // GPIO peripheral registers structure
@@ -96,3 +99,5 @@ struct RCC_t
 #define BIT_CLEAR(register, mask)   ((register) &= ~(mask))
 #define BIT_TOGGLE(register, mask)  ((register) ^= (mask))
 #define BIT_CHECK(register, mask)   ((register) & (mask))
+
+#endif // FILE_GUARD_STM32F411XE_H
