@@ -37,4 +37,4 @@ gdb-server:
 
 .PHONY: gdb
 gdb: program.elf
-	$(GDB) program.elf -ex "target remote :4242" -ex "load" -tui
+	$(GDB) program.elf -ex "target remote :4242" -ex "load"
