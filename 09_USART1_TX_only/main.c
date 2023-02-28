@@ -13,13 +13,13 @@
 #define USART1_BAUD_RATE 115200
 
 // SysTick counter. Incremented by 1 when SysTick interrupt triggered.
-volatile uint32_t g_systick_counter;
+volatile uint32_t systick_counter;
 
 void delay_milliseconds(uint32_t t)
 {
-    const uint32_t start = g_systick_counter;
+    const uint32_t start = systick_counter;
 
-    while (g_systick_counter - start < t)
+    while (systick_counter - start < t)
     {
         // Do nothing
     }
@@ -27,7 +27,7 @@ void delay_milliseconds(uint32_t t)
 
 int main()
 {
-    g_systick_counter = 0;
+    systick_counter = 0;
 
 
 
@@ -144,7 +144,7 @@ int main()
 
 void SysTick_Handler()
 {
-    ++g_systick_counter;
+    ++systick_counter;
 }
 
 void TIM2_Handler()
