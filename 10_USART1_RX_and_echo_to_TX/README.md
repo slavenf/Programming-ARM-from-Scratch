@@ -1,0 +1,1 @@
+GPIOA pin 9 --> USART1 TX
