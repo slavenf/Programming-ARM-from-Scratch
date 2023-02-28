@@ -144,6 +144,8 @@ struct USART_t
 // Bit definitions for GPIO_AFRH register
 #define GPIO_AFRH_AFRH9_MASK        0x000000F0
 #define GPIO_AFRH_AFRH9_AF7         0x00000070
+#define GPIO_AFRH_AFRH10_MASK       0x00000F00
+#define GPIO_AFRH_AFRH10_AF7        0x00000700
 
 // Bit definitions for RCC_CR register
 #define RCC_CR_HSEON                (1UL << 16) // HSE clock enable
