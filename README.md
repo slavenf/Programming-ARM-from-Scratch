@@ -10,7 +10,7 @@ library or third-party HAL or CMSIS - everything is done from scratch.
 
 ## Required Hardware
 
-#### 1. Development board
+#### 1. Development Board
 
 Development board used in these examples is STM32F411CEU6 black pill v3.1
 made by WeAct Studio. It looks like this:
@@ -23,7 +23,7 @@ https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1
 Here is a link to WeAct Studio official store on AliExpress:
 https://weactstudio.aliexpress.com
 
-#### 2. Debugger/programmer
+#### 2. Debugger/Programmer
 
 Debugger/programmer used in these examples is copy of ST-link V2 that you can
 buy on AliExpress. It looks like this:
@@ -32,7 +32,7 @@ buy on AliExpress. It looks like this:
 
 ## Optional Hardware
 
-#### 1. USB to serial port module
+#### 1. USB to Serial Port Module
 
 This is useful for communicating with microcontroller over UART.
 
@@ -42,7 +42,7 @@ Check their official store on AliExpress.
 Here is a link to a project page on GitHub:
 https://github.com/WeActStudio/WeActStudio.USB2SerialV1
 
-#### 2. Logic analyzer
+#### 2. Logic Analyzer
 
 This is useful for debugging while writing drivers for UART, SPI, I2C and similar.
 
@@ -55,7 +55,7 @@ https://github.com/WeActStudio/LogicAnalyzerV1
 
 ## Required Software
 
-#### 1. ARM GNU toolchain
+#### 1. ARM GNU Toolchain
 
 ARM GNU toolchain includes GNU assembler, C and C++ compilers, GNU debugger and
 GNU binutils.
@@ -70,13 +70,21 @@ Such packages contain the following executables:
 There is also official ARM GNU toolchain:
 https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain
 
-#### 2. STM32 programming toolset
+#### 2. STM32 Programming Toolset
 
 These examples use `stlink` toolset to program and debug STM32 devices.
 Here is a link to a project page on GitHub: https://github.com/stlink-org/stlink
 Most of Linux distributions contain `stlink` toolset in their repository.
 
-## Quick start
+## Optional Software
+
+#### 1. Serial Terminal Tool
+
+This is useful for communicating with microcontroller over UART.
+
+I recommend `putty` tool: https://www.putty.org/
+
+## Quick Start
 
 Create file `example.S` with the following content:
 
@@ -160,7 +168,7 @@ Stop debugging and exit GDB:
     (gdb) kill
     (gdb) quit
 
-## Using examples
+## Using Examples
 
 All examples have prepared makefiles.
 
