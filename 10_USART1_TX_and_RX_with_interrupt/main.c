@@ -23,12 +23,10 @@ uint8_t usart1_tx_buffer[USART1_TX_BUFFER_SIZE];
 // Number of charactes in USART1 TX buffer
 uint32_t usart1_tx_size;
 
-// Number of transmitted charactes.
-// This is used by interrupt routine to count transmitted characters.
-// Total number of characters to transmit is written to `usart1_tx_size`.
+// Current number of transmitted charactes.
+// This variable is used by interrupt routine.
+// The total number of transmitted charactes is stored in `usart1_tx_size`.
 volatile uint32_t usart1_tx_count;
-
-
 
 // Size of USART1 RX buffer
 #define USART1_RX_BUFFER_SIZE 1000
@@ -39,22 +37,16 @@ uint8_t usart1_rx_buffer[USART1_RX_BUFFER_SIZE];
 // Number of charactes in USART1 RX buffer
 uint32_t usart1_rx_size;
 
-// Number of received character.
-// This is used by interrupt routine to count received characters.
-// Total number of received characters is written to `usart1_rx_size`.
+// Current number of received character.
+// This variable is used by interrupt routine.
+// The total number of received character is stored in `usart1_rx_size`.
 volatile uint32_t usart1_rx_count;
 
+#define USART_STATE_READY   1
+#define USART_STATE_BUSY    2
 
-
-// USART states.
-enum usart_state_t
-{
-    USART_STATUS_READY,
-    USART_STATUS_BUSY
-};
-
-// USART1 current status.
-volatile enum usart_state_t usart1_state;
+// USART1 current state.
+volatile uint32_t usart1_state;
 
 
 
@@ -209,6 +201,11 @@ int main()
     // Enable USART1 interrupt
     irq_enable(USART1_IRQn);
 
+    // Set USART1 counters to zero.
+    // These counters are used inside USART1 interrupt routine.
+    usart1_tx_count = 0;
+    usart1_rx_count = 0;
+
     while (1)
     {
         // --------------------------------------------------------------------
@@ -221,18 +218,14 @@ int main()
         // Number of characters in USART1 TX buffer
         usart1_tx_size = string_length((const char*)usart1_tx_buffer);
 
-        // Set number of transmitted characters to zero.
-        // This variable is used by interrupt routine.
-        usart1_tx_count = 0;
-
-        // Set status to busy
-        usart1_state = USART_STATUS_BUSY;
+        // Set state to busy
+        usart1_state = USART_STATE_BUSY;
 
         // Enable TXE interrupt
         BIT_SET(USART1->CR1, USART_CR1_TXEIE);
 
         // Wait until transmission complete
-        while (usart1_state != USART_STATUS_READY)
+        while (usart1_state != USART_STATE_READY)
         {
             // Do nothing
         }
@@ -241,18 +234,14 @@ int main()
         // STEP 2: Receive message
         // --------------------------------------------------------------------
 
-        // Set number of received characters to zero.
-        // This variable is used by interrupt routine.
-        usart1_rx_count = 0;
-
-        // Set status to busy
-        usart1_state = USART_STATUS_BUSY;
+        // Set state to busy
+        usart1_state = USART_STATE_BUSY;
 
         // Enable RXNE interrupt
         BIT_SET(USART1->CR1, USART_CR1_RXNEIE);
 
         // Wait until transmission complete
-        while (usart1_state != USART_STATUS_READY)
+        while (usart1_state != USART_STATE_READY)
         {
             // Do nothing
         }
@@ -261,24 +250,20 @@ int main()
         // STEP 3: Send echo
         // --------------------------------------------------------------------
 
-        // Write message to USART1 TX buffer
+        // Copy message from RX to TX buffer
         string_copy((char*)usart1_tx_buffer, (const char*)usart1_rx_buffer);
 
-        // Number of characters in USART1 TX buffer
+        // Set number of character to transmit
         usart1_tx_size = usart1_rx_size;
 
-        // Set number of transmitted characters to zero.
-        // This variable is used by interrupt routine.
-        usart1_tx_count = 0;
-
-        // Set status to busy
-        usart1_state = USART_STATUS_BUSY;
+        // Set state to busy
+        usart1_state = USART_STATE_BUSY;
 
         // Enable TXE interrupt
         BIT_SET(USART1->CR1, USART_CR1_TXEIE);
 
         // Wait until transmission complete
-        while (usart1_state != USART_STATUS_READY)
+        while (usart1_state != USART_STATE_READY)
         {
             // Do nothing
         }
@@ -311,9 +296,7 @@ void USART1_Handler()
     )
     {
         // Write character to USART data register
-        USART1->DR = usart1_tx_buffer[usart1_tx_count];
-
-        ++usart1_tx_count;
+        USART1->DR = usart1_tx_buffer[usart1_tx_count++];
 
         if (usart1_tx_count == usart1_tx_size)
         {
@@ -331,11 +314,14 @@ void USART1_Handler()
         BIT_CHECK(USART1->SR, USART_SR_TC)
     )
     {
+        // Reset TX counter for next transmission
+        usart1_tx_count = 0;
+
         // Disable TC interrupt
         BIT_CLEAR(USART1->CR1, USART_CR1_TCIE);
 
-        // Set USART status to READY
-        usart1_state = USART_STATUS_READY;
+        // Set USART state to READY
+        usart1_state = USART_STATE_READY;
     }
     // If read data register not empty
     else if
@@ -345,9 +331,7 @@ void USART1_Handler()
     )
     {
         // Read character from USART data register
-        usart1_rx_buffer[usart1_rx_count] = 0xFF & USART1->DR;
-
-        ++usart1_rx_count;
+        usart1_rx_buffer[usart1_rx_count++] = 0xFF & USART1->DR;
 
         // Enable IDLE interrupt
         BIT_SET(USART1->CR1, USART_CR1_IDLEIE);
@@ -361,13 +345,16 @@ void USART1_Handler()
     {
         usart1_rx_size = usart1_rx_count;
 
+        // Reset RX counter for next transmission
+        usart1_rx_count = 0;
+
         // Disable RXNE interrupt
         BIT_CLEAR(USART1->CR1, USART_CR1_RXNEIE);
 
         // Disable IDLE interrupt
         BIT_CLEAR(USART1->CR1, USART_CR1_IDLEIE);
 
-        // Set USART status to READY
-        usart1_state = USART_STATUS_READY;
+        // Set USART state to READY
+        usart1_state = USART_STATE_READY;
     }
 }
