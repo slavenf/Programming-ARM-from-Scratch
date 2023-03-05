@@ -39,6 +39,7 @@ volatile uint32_t usart1_state;
 // SysTick counter. Incremented by 1 when SysTick interrupt triggered.
 volatile uint32_t systick_counter;
 
+// Delay for `t` milliseconds.
 void delay_milliseconds(uint32_t t)
 {
     const uint32_t start = systick_counter;
