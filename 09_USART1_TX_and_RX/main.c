@@ -12,13 +12,22 @@
 // USART1 baud rate
 #define USART1_BAUD_RATE 115200
 
+// USART1 TX buffer capacity
+#define USART1_TX_BUFFER_CAPACITY 1000
+
+// USART1 TX buffer
+uint8_t usart1_tx_buffer[USART1_TX_BUFFER_CAPACITY];
+
+// Number of charactes in USART1 TX buffer
+uint32_t usart1_tx_size;
+
 // USART1 RX buffer capacity
 #define USART1_RX_BUFFER_CAPACITY 1000
 
 // USART1 RX buffer
 uint8_t usart1_rx_buffer[USART1_RX_BUFFER_CAPACITY];
 
-// Number of characters in USART1 RX buffer
+// Number of charactes in USART1 RX buffer
 uint32_t usart1_rx_size;
 
 // SysTick counter. Incremented by 1 when SysTick interrupt triggered.
@@ -33,6 +42,33 @@ void delay_milliseconds(uint32_t t)
     {
         // Do nothing
     }
+}
+
+// Returns length of string without null-character.
+uint32_t string_length(const char* str)
+{
+    uint32_t len = 0;
+
+    while (*str)
+    {
+        ++len;
+        ++str;
+    }
+
+    return len;
+}
+
+// Copies string from `src` to `dest`. Null-character is also copied.
+void string_copy(char* dest, const char* src)
+{
+    while (*src)
+    {
+        *dest = *src;
+        ++dest;
+        ++src;
+    }
+
+    *dest = 0;
 }
 
 int main()
@@ -143,21 +179,31 @@ int main()
 
     while (1)
     {
-        const char* str = "Send something and I will echo it.\n";
+        // --------------------------------------------------------------------
+        // STEP 1: Send message
+        // --------------------------------------------------------------------
 
-        while (*str)
+        // Write message to USART1 TX buffer
+        string_copy((char*)usart1_tx_buffer, "Send something and I will echo it.\n");
+
+        // Number of characters in USART1 TX buffer
+        usart1_tx_size = string_length((const char*)usart1_tx_buffer);
+
+        for (uint32_t i = 0; i < usart1_tx_size; ++i)
         {
             // Write character to USART data register
-            USART1->DR = *str;
+            USART1->DR = usart1_tx_buffer[i];
 
             // Wait until transmit data register empty
             while (!BIT_CHECK(USART1->SR, USART_SR_TXE))
             {
                 // Do nothing
             }
-
-            ++str;
         }
+
+        // --------------------------------------------------------------------
+        // STEP 2: Receive message
+        // --------------------------------------------------------------------
 
         // Reset RX counter
         usart1_rx_size = 0;
@@ -174,8 +220,7 @@ int main()
             if (BIT_CHECK(USART1->SR, USART_SR_RXNE))
             {
                 // Read data register
-                usart1_rx_buffer[usart1_rx_size] = (uint8_t)USART1->DR;
-                ++usart1_rx_size;
+                usart1_rx_buffer[usart1_rx_size++] = 0xFF & USART1->DR;
             }
 
             // If IDLE line detected
@@ -185,11 +230,20 @@ int main()
             }
         }
 
-        // Send echo
-        for (uint32_t i = 0; i < usart1_rx_size; ++i)
+        // --------------------------------------------------------------------
+        // STEP 3: Send echo
+        // --------------------------------------------------------------------
+
+        // Copy message from RX to TX buffer
+        string_copy((char*)usart1_tx_buffer, (const char*)usart1_rx_buffer);
+
+        // Set number of character to transmit
+        usart1_tx_size = usart1_rx_size;
+
+        for (uint32_t i = 0; i < usart1_tx_size; ++i)
         {
             // Write character to USART data register
-            USART1->DR = usart1_rx_buffer[i];
+            USART1->DR = usart1_tx_buffer[i];
 
             // Wait until transmit data register empty
             while (!BIT_CHECK(USART1->SR, USART_SR_TXE))
