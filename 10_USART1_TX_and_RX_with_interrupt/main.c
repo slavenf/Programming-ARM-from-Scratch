@@ -12,8 +12,6 @@
 // USART1 baud rate
 #define USART1_BAUD_RATE 115200
 
-// ----------------------------------------------------------------------------
-
 // USART1 TX buffer capacity
 #define USART1_TX_BUFFER_CAPACITY 1000
 
@@ -22,9 +20,6 @@ uint8_t usart1_tx_buffer[USART1_TX_BUFFER_CAPACITY];
 
 // Number of charactes in USART1 TX buffer
 uint32_t usart1_tx_size;
-
-// USART1 TX counter. This is used by interrupt routine.
-volatile uint32_t usart1_tx_count;
 
 // USART1 RX buffer capacity
 #define USART1_RX_BUFFER_CAPACITY 1000
@@ -35,16 +30,11 @@ uint8_t usart1_rx_buffer[USART1_RX_BUFFER_CAPACITY];
 // Number of charactes in USART1 RX buffer
 uint32_t usart1_rx_size;
 
-// USART1 RX counter. This is used by interrupt routine.
-volatile uint32_t usart1_rx_count;
-
 #define USART_STATE_READY   1
 #define USART_STATE_BUSY    2
 
 // USART1 current state.
 volatile uint32_t usart1_state;
-
-// ----------------------------------------------------------------------------
 
 // SysTick counter. Incremented by 1 when SysTick interrupt triggered.
 volatile uint32_t systick_counter;
@@ -58,8 +48,6 @@ void delay_milliseconds(uint32_t t)
         // Do nothing
     }
 }
-
-// ----------------------------------------------------------------------------
 
 // Returns length of string without null-character.
 uint32_t string_length(const char* str)
@@ -88,14 +76,8 @@ void string_copy(char* dest, const char* src)
     *dest = 0;
 }
 
-// ----------------------------------------------------------------------------
-
 int main()
 {
-    systick_counter = 0;
-
-
-
     // Enable HSE clock
     BIT_SET(RCC->CR, RCC_CR_HSEON);
 
@@ -199,11 +181,6 @@ int main()
     // Enable USART1 interrupt
     irq_enable(USART1_IRQn);
 
-    // Set USART1 counters to zero.
-    // These counters are used inside USART1 interrupt routine.
-    usart1_tx_count = 0;
-    usart1_rx_count = 0;
-
     while (1)
     {
         // --------------------------------------------------------------------
@@ -286,6 +263,10 @@ void TIM2_Handler()
 
 void USART1_Handler()
 {
+    // Current number of transmitted or received characters.
+    static uint32_t usart1_tx_count = 0;
+    static uint32_t usart1_rx_count = 0;
+
     // If transmit data register empty
     if
     (

@@ -15,7 +15,7 @@
 
 vector_table:
     .word       __stack_end                 @ Offset: 0x000
-    .word       Reset_Handler               @ Offset: 0x004
+    HANDLER     Reset_Handler               @ Offset: 0x004
     HANDLER     NMI_Handler                 @ Offset: 0x008
     HANDLER     HardFault_Handler           @ Offset: 0x00C
     HANDLER     MemManage_Handler           @ Offset: 0x010
@@ -120,11 +120,6 @@ vector_table:
 @ -----------------------------------------------------------------------------
 
 .text
-
-.type Reset_Handler, "function"
-Reset_Handler:
-    bl main
-    b .
 
 .type Default_Handler, "function"
 Default_Handler:
