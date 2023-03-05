@@ -62,7 +62,6 @@ void delay_milliseconds(uint32_t t)
 // ----------------------------------------------------------------------------
 
 // Returns length of string without null-character.
-__attribute__((optimize("O0")))
 uint32_t string_length(const char* str)
 {
     uint32_t len = 0;
@@ -77,7 +76,6 @@ uint32_t string_length(const char* str)
 }
 
 // Copies string from `src` to `dest`. Null-character is also copied.
-__attribute__((optimize("O0")))
 void string_copy(char* dest, const char* src)
 {
     while (*src)
