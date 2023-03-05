@@ -12,14 +12,14 @@
 // USART1 baud rate
 #define USART1_BAUD_RATE 115200
 
-// Size of USART1 RX buffer
-#define USART1_RX_BUFFER_SIZE 1000
+// USART1 RX buffer capacity
+#define USART1_RX_BUFFER_CAPACITY 1000
 
 // USART1 RX buffer
-uint8_t usart1_rx_buffer[USART1_RX_BUFFER_SIZE];
+uint8_t usart1_rx_buffer[USART1_RX_BUFFER_CAPACITY];
 
-// Number of elements in USART1 RX buffer
-uint32_t usart1_rx_count;
+// Number of characters in USART1 RX buffer
+uint32_t usart1_rx_size;
 
 // SysTick counter. Incremented by 1 when SysTick interrupt triggered.
 volatile uint32_t systick_counter;
@@ -160,7 +160,7 @@ int main()
         }
 
         // Reset RX counter
-        usart1_rx_count = 0;
+        usart1_rx_size = 0;
 
         // Wait until read data register not empty
         while (!BIT_CHECK(USART1->SR, USART_SR_RXNE))
@@ -174,8 +174,8 @@ int main()
             if (BIT_CHECK(USART1->SR, USART_SR_RXNE))
             {
                 // Read data register
-                usart1_rx_buffer[usart1_rx_count] = (uint8_t)USART1->DR;
-                ++usart1_rx_count;
+                usart1_rx_buffer[usart1_rx_size] = (uint8_t)USART1->DR;
+                ++usart1_rx_size;
             }
 
             // If IDLE line detected
@@ -186,7 +186,7 @@ int main()
         }
 
         // Send echo
-        for (uint32_t i = 0; i < usart1_rx_count; ++i)
+        for (uint32_t i = 0; i < usart1_rx_size; ++i)
         {
             // Write character to USART data register
             USART1->DR = usart1_rx_buffer[i];
