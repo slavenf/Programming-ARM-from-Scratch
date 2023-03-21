@@ -129,7 +129,7 @@ struct USART_t
 #define USART2  ((struct USART_t*)USART2_BASE)
 #define USART6  ((struct USART_t*)USART6_BASE)
 
-// Bit definitions for GPIOC_MODER register
+// Bit definitions for GPIO_MODER register
 #define GPIO_MODER_MODER13_MASK     (3UL << 26)
 #define GPIO_MODER_MODER13_OUTPUT   (1UL << 26)
 #define GPIO_MODER_MODER10_MASK     (3UL << 20)
@@ -137,7 +137,7 @@ struct USART_t
 #define GPIO_MODER_MODER9_MASK      (3UL << 18)
 #define GPIO_MODER_MODER9_ALT_FUNC  (2UL << 18)
 
-// Bit definitions for GPIOC_ODR register
+// Bit definitions for GPIO_ODR register
 #define GPIO_ODR_ODR13_MASK         (1UL << 13)
 #define GPIO_ODR_ODR13              (1UL << 13)
 

@@ -67,11 +67,11 @@ struct RCC_t
 #define GPIOC   ((struct GPIO_t*)GPIOC_BASE)
 #define RCC     ((struct RCC_t*)RCC_BASE)
 
-// Bit definitions for GPIOC_MODER register
+// Bit definitions for GPIO_MODER register
 #define GPIO_MODER_MODER13_MASK     (3UL << 26)
 #define GPIO_MODER_MODER13_OUTPUT   (1UL << 26)
 
-// Bit definitions for GPIOC_ODR register
+// Bit definitions for GPIO_ODR register
 #define GPIO_ODR_ODR13_MASK         (1UL << 13)
 #define GPIO_ODR_ODR13              (1UL << 13)
 
