@@ -26,6 +26,7 @@
 .space 0x3f8
 
 @ -----------------------------------------------------------------------------
+@ Program start
 start:
     nop                 @ Do Nothing.
     ldr r0, =0x1111     @ Write 0x1111 to register r0.
