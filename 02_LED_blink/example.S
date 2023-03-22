@@ -21,8 +21,8 @@ GPIO_MODER_MODER13_MASK   = 3 << 26
 GPIO_MODER_MODER13_OUTPUT = 1 << 26
 
 @ Bit definitions for GPIO_BSSR register
-GPIOC_BSSR_BR13 = 1 << 29
-GPIOC_BSSR_BS13 = 1 << 13
+GPIO_BSSR_BR13 = 1 << 29
+GPIO_BSSR_BS13 = 1 << 13
 
 @ Bit definitions for RCC_AHB1ENR register
 RCC_AHB1ENR_GPIOCEN = 1 << 2
@@ -65,7 +65,7 @@ start:
 
 led_off:
     ldr r0, =GPIOC_BSSR
-    ldr r1, =GPIOC_BSSR_BS13
+    ldr r1, =GPIO_BSSR_BS13
     str r1, [r0]
 
     ldr r0, =LED_BLINK_DELAY
@@ -75,7 +75,7 @@ delay1:
 
 led_on:
     ldr r0, =GPIOC_BSSR
-    ldr r1, =GPIOC_BSSR_BR13
+    ldr r1, =GPIO_BSSR_BR13
     str r1, [r0]
 
     ldr r0, =LED_BLINK_DELAY
