@@ -82,7 +82,7 @@ Most of Linux distributions contain `stlink` toolset in their repository.
 
 This is useful for communicating with microcontroller over UART.
 
-I recommend `putty` tool: https://www.putty.org/
+I recommend `hterm` tool from https://www.der-hammer.info/pages/terminal.html. It is running on Linux and Windows.
 
 ## Quick Start
 
